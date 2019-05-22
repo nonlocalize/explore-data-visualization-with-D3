@@ -2,9 +2,13 @@
   "name": "explore-data-visualization-with-d3",
   "version": "0.0.0",
   "description": "Explore data visualization using D3",
+  "engines": {
+    "node": ">=10.3.0",
+    "npm": ">=6.4.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd examples && npx http-server -p 3000 --cors -c-1 -a localhost"
+    "start": "npx live-server"
   },
   "repository": {
     "type": "git",
