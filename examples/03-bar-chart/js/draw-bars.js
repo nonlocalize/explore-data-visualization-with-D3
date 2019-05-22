@@ -1,4 +1,12 @@
 /*
+  ACCESSIBILITY FEATURES ADDED
+
+  Download the ChromeVox extension at https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn?hl=en to see how the screen reader can work with these histograms
+
+  If you are on macOS and have this extension installed, life will be easier for you if you set the ChromeVox modifier key to "Ctrl+Shift" and set Toggle ChromeVox active or inactive with "ChromeVox+A". Then, you can just press "Ctrl+Shift" and then the "A" key to toggle whether it is active or not.
+*/
+
+/*
   Generate a histogram to display values on the x-axis and frequency of those values on the y-axis.
 
   In order to show frequency, values are placed in equally sized bins (visualized as individual bars).
@@ -55,6 +63,14 @@ async function drawBars() {
         `translate(${dimensions.margin.left}px, ${dimensions.margin.top})`
       )
 
+    // Accessibility
+    wrapper.attr("role", "figure")
+      // Allow the user to tab into our chart
+      .attr("tabindex", "0")  // 0 puts an element in tab flow; -1 takes it out of the tab flow
+      // Append a title so that screen readers can announce what the user is looking at
+      .append("title")
+        .text(`Histogram looking at the distribution of ${metric} in Seattle over the past year`)
+
     // Create scales
     const xScale = d3
       .scaleLinear()
@@ -94,12 +110,32 @@ async function drawBars() {
 
     // Draw data - Create one bar for each bin, with a label on top of each bar
     const binsGroup = bounds.append('g') // Contains our bins
+      // Accessibility - Make our group selectable with a tab
+      .attr("tabindex", "0")
+      // A role of list will make the screenreader announce the number of items within the list
+      .attr("role", "list")
+      // Let the user know what the list contains
+      .attr("aria-label", "histogram bars")
+      // Accessibility win! Now when the bins group is highlighted, the screen reader will announce: "histogram bars. List with 15 items."
+
     const binGroups = binsGroup
       .selectAll('g')
       .data(bins) // Bind our bins to the selection
       // Create a new "g" element for each bin
       .enter()
       .append('g')
+        // Accessibility - Annotate each of our list items
+        .attr("tabindex", "0")
+        .attr("role", "listitem")
+        .attr("aria-label", d => `There were ${
+          yAccessor(d)
+        } days between ${
+          d.x0.toString().slice(0,4)
+        } and ${
+          d.x1.toString().slice(0,4)
+        } ${
+          metric
+        } levels.`)
 
     // Draw our bars
     const barPadding = 1
@@ -172,9 +208,12 @@ async function drawBars() {
       .text(metric)
       .style("text-transform", "capitalize")
 
-    // Set up interactions
+    // Accessibility - Screen reader reads each of our x-axis tick labels once it is done reading the title. It is annoying, and does not give the user much information. Let's select all text within our chart and give it an aria-hidden attribute of true
+    wrapper.selectAll("text")
+      .attr("role", "presentation")
+      .attr("aria-hidden", "true")
   }
-  // TODO: Ready to identify metrics to draw histograms
+
   const metrics = [
     "windSpeed",
     "moonPhase",
