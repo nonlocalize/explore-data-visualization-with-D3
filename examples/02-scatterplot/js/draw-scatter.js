@@ -5,6 +5,8 @@ async function drawScatter () {
   const dataset = await d3.json(pathToJSON)
   const xAccessor = d => d.dewPoint
   const yAccessor = d => d.humidity
+  // Let's show how the amount of cloud cover varies based on humidity and dew point
+  const colorAccessor = d => d.cloudCover
 
   // Create chart dimensions
   // REMEMBER: For scatter plots, we typically want square charts so axes do not appear squished
@@ -56,7 +58,11 @@ async function drawScatter () {
     .nice()
     // Now our scale is [0.25, 0.95] - offering better readability and avoiding smushing dots to the edge
 
-  // Draw data
+  const colorScale = d3.scaleLinear()
+    .domain(d3.extent(dataset, colorAccessor))  // Find the min and max values
+    .range(["skyblue", "darkslategrey"])
+
+    // Draw data
   // REMEMBER: For scatter plots, we want one element per data point - not a line that covers all data points
   //  We will use the <circle> SVG element - setting x, y, and the radius (half of its width or height)
 
@@ -107,7 +113,7 @@ async function drawScatter () {
   //         .attr("fill", "cornflowerblue")
 
   // EXERCISE 01: Split the dataset in two and draw both parts separately (comment out Idea 2 for the moment)
-  function drawDots(dataset, color) {
+  function drawDots(dataset) {
     const dots = bounds.selectAll("circle").data(dataset)
 
     // Notice how only the new dots have the supplied color when we call drawDots multiple times?
@@ -143,14 +149,14 @@ async function drawScatter () {
       .attr("cx", d => xScale(xAccessor(d)))
       .attr("cy", d => yScale(yAccessor(d)))
       .attr("r", 5)
-      .attr("fill", color)
+      .attr("fill", d => colorScale(colorAccessor(d)))  // Fill based on our new color scale for cloud cover
 
   }
   // Now let's call this function with a subset of our data
-  drawDots(dataset.slice(0, 200), "darkgrey")
+  drawDots(dataset.slice(0, 200))
   // After one second, let's call this function with our whole dataset and a blue color to distinguish our two sets of dots
   setTimeout(() => {
-    drawDots(dataset, "cornflowerblue")
+    drawDots(dataset)
   }, 1000)
   // END EXERCISE 01
 
