@@ -156,8 +156,55 @@ async function drawScatter () {
 
   // Draw peripherals
 
+  // x axis
+  const xAxisGenerator = d3.axisBottom().scale(xScale)
+  // Remember to translate the x axis to move it to the bottom of the chart bounds
+  const xAxis = bounds.append("g")
+    .call(xAxisGenerator)
+      .style("transform", `translateY(${dimensions.boundedHeight}px)`)
+
+  // Label for the x axis
+  const xAxisLabel = xAxis.append("text") // Append a text element to our SVG
+    .attr("x", dimensions.boundedWidth / 2) // Position it horizontally centered
+    .attr("y", dimensions.margin.bottom - 10) // Position it slightly above the bottom of the chart
+    // Explicitly set fill to black because D3 sets a fill of none by default on the axis "g" element
+    .attr("fill", "black")
+    // Style our label
+    .style("font-size", "1.4em")
+    // Add text to display on label
+    .html("Dew point (&deg;F)")
+
+  // y axis
+  const yAxisGenerator = d3.axisLeft()
+    .scale(yScale)
+    // Cut down on visual clutter and aim for a certain number (4) of ticks
+    .ticks(4)
+    // Note that the resulting axis won't necessarily have exactly 4 ticks. It will aim for four ticks, but also use friendly intervals to get close. You can also specify exact values of ticks with the .ticksValues() method
+
+  const yAxis = bounds.append("g")
+    .call(yAxisGenerator)
+
+  // Label for the y axis
+  const yAxisLabel = yAxis.append("text")
+    // Draw this in the middle of the y axis and just inside the left side of the chart wrapper
+    .attr("x", -dimensions.boundedHeight / 2)
+    .attr("y", -dimensions.margin.left + 10)
+    .attr("fill", "black")
+    .style("font-size", "1.4em")
+    .text("Relative humidity")
+    // Rotate the label to find next to the y axis
+    .style("transform", "rotate(-90deg)")
+    // Rotate the label around its center
+    .style("text-anchor", "middle")
+
   // Set up interactions
 
 }
 
 drawScatter()
+
+/*
+  Did we gain insight into our original question? Yes! We wanted to see if we were correct in guessing that high humidity would likely coincide with a high dew point.
+
+  Looking at the plotted dots, they do seem to group around an invisible line from the bottom left to the top right of the chart.
+*/
