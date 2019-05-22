@@ -16,3 +16,4 @@ Example 03 - Generalize our histogram to display graphs for a variety of Seattle
 
 Example 03 - Accessibility enhancements for our histogram charts
 ![screenshots/example-03c.png](screenshots/example-03c.png)
+![screenshots/example-03d.png](screenshots/example-03d.png)
