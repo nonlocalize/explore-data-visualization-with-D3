@@ -95,16 +95,64 @@ async function drawScatter () {
     console.log(theDots)  // Notice how _enter has an array of 365 items; and _groups now has an array of 365 items
   */
 
-  // Idea 2 - Ta-daaaaa! Here are the dots!!
-  const dots = bounds.selectAll("circle") // Returns an array of matching "circle" elements
-      .data(dataset)  // Pass our dataset to the selection
-      .enter()  // Grab the selection of new dots to render (contained in _enter)
-        .append("circle") // Create a circle element for each new dot(s)
-          .attr("cx", d => xScale(xAccessor(d)))
-          .attr("cy", d => yScale(yAccessor(d)))
-          .attr("r", 5)
-          // Let's make the dots a lighter color to help them stand out
-          .attr("fill", "cornflowerblue")
+  // // Idea 2 - Ta-daaaaa! Here are the dots!!
+  // const dots = bounds.selectAll("circle") // Returns an array of matching "circle" elements
+  //     .data(dataset)  // Pass our dataset to the selection
+  //     .enter()  // Grab the selection of new dots to render (contained in _enter)
+  //       .append("circle") // Create a circle element for each new dot(s)
+  //         .attr("cx", d => xScale(xAccessor(d)))
+  //         .attr("cy", d => yScale(yAccessor(d)))
+  //         .attr("r", 5)
+  //         // Let's make the dots a lighter color to help them stand out
+  //         .attr("fill", "cornflowerblue")
+
+  // EXERCISE 01: Split the dataset in two and draw both parts separately (comment out Idea 2 for the moment)
+  function drawDots(dataset, color) {
+    const dots = bounds.selectAll("circle").data(dataset)
+
+    // Notice how only the new dots have the supplied color when we call drawDots multiple times?
+    // dots
+    //   .enter().append("circle")
+    //     .attr("cx", d => xScale(xAccessor(d)))
+    //     .attr("cy", d => yScale(yAccessor(d)))
+    //     .attr("r", 5)
+    //     .attr("fill", color)
+
+    // Want to have all of the drawn dots to have the same color?
+    // Notice how this example breaks the ability to chain.
+    // dots
+    //   .enter().append("circle")
+
+    // bounds.selectAll("circle")
+    //     .attr("cx", d => xScale(xAccessor(d)))
+    //     .attr("cy", d => yScale(yAccessor(d)))
+    //     .attr("r", 5)
+    //     .attr("fill", color)
+
+    // // Let's have all of the drawn dots have the same color AND use merge() so we can create a chain
+    // dots
+    //   .enter().append("circle")
+    //   .merge(dots)  // Merge already drawn/existing dots with the new ones AND keep our chain going
+    //     .attr("cx", d => xScale(xAccessor(d)))
+    //     .attr("cy", d => yScale(yAccessor(d)))
+    //     .attr("r", 5)
+    //     .attr("fill", color)
+
+    // Great news! Since d3-selection version 1.4.0, we can use a join() method - which is a shortcut for running the enter(), append(), merge(), and other methods
+    dots.join("circle")
+      .attr("cx", d => xScale(xAccessor(d)))
+      .attr("cy", d => yScale(yAccessor(d)))
+      .attr("r", 5)
+      .attr("fill", color)
+
+  }
+  // Now let's call this function with a subset of our data
+  drawDots(dataset.slice(0, 200), "darkgrey")
+  // After one second, let's call this function with our whole dataset and a blue color to distinguish our two sets of dots
+  setTimeout(() => {
+    drawDots(dataset, "cornflowerblue")
+  }, 1000)
+  // END EXERCISE 01
 
   // Draw peripherals
 
