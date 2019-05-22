@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/TheRobBrennan/explore-data-visualization-with-D3/issues"
   },
-  "homepage": "https://github.com/TheRobBrennan/explore-data-visualization-with-D3#readme"
+  "homepage": "https://github.com/TheRobBrennan/explore-data-visualization-with-D3#readme",
+  "devDependencies": {
+    "tar": "^4.4.8"
+  }
 }
