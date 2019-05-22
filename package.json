@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "Explore data visualization using D3",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd examples && npx http-server -p 3000 --cors -c-1 -a localhost"
   },
   "repository": {
     "type": "git",
