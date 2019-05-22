@@ -125,7 +125,39 @@ async function drawBars() {
       .style("font-size", "12px")
       .style("font-family", "sans-serif")
 
-  // Draw peripherals
+  // Extra credit - Identify the mean
+  const mean = d3.mean(dataset, metricAccessor)
+  // Add a line to our bounds that draws a line between two points - (x1, y1) and (x2, y2)
+  const meanLine = bounds.append("line")
+    .attr("x1", xScale(mean))
+    .attr("x2", xScale(mean))
+    .attr("y1", 25)
+    .attr("y2", dimensions.boundedHeight)
+    // By default, lines have no stroke color - let's make ours dashed with a 2px maroon dash and 4px long gap
+    .attr("stroke", "maroon")
+    .attr("stroke-dasharray", "2px 4px")
+  const meanLabel = bounds.append("text")
+    .attr("x", xScale(mean))
+    .attr("y", 15)
+    .text("mean")
+    .attr("fill", "maroon")
+    .style("font-size", "12px")
+    .style("text-anchor", "middle")
+
+  // Draw peripherals - No y-axis label needed since we have the label centered above each bar
+  const xAxisGenerator = d3.axisBottom()
+    .scale(xScale)
+
+  const xAxis = bounds.append("g")
+    .call(xAxisGenerator)
+      .style("transform", `translateY(${dimensions.boundedHeight}px)`)
+
+  const xAxisLabel = xAxis.append("text")
+    .attr("x", dimensions.boundedWidth / 2)
+    .attr("y", dimensions.margin.bottom - 10)
+    .attr("fill", "black")
+    .style("font-size", "1.4em")
+    .text("Humidity")
 
   // Set up interactions
 
