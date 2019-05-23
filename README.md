@@ -73,3 +73,21 @@ This uses a dataset that is constantly updating over time - including applying a
 This example was not in the book, but the code sample was worth incorporating to see how we might look at animating a scatterplot when data is updated.
 
 ![screenshots/example-4f.gif](screenshots/example-04f.gif)
+
+## Example 05: Interactions
+
+### Demo 1: Events
+
+
+
+### Demo 2: Bars
+
+
+
+### Demo 3: Scatter
+
+
+
+### Demo 4: Line
+
+
