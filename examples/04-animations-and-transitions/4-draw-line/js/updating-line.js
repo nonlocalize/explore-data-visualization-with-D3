@@ -39,9 +39,26 @@ async function drawLineChart() {
       `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`
     )
 
+  // IMPROVEMENT: Define a clipPath in the defs element
+  bounds
+    .append('defs')
+    .append('clipPath')
+    .attr('id', 'bounds-clip-path')
+    // Add a rect that covers our bounds
+    .append('rect')
+    .attr('width', dimensions.boundedWidth)
+    .attr('height', dimensions.boundedHeight)
+
   // init static elements
   bounds.append('rect').attr('class', 'freezing')
-  bounds.append('path').attr('class', 'line')
+
+  // IMPROVEMENT: Use our newly defined clip path. The order in which we draw SVG elements determines their z index, so let's add our new group AFTER we draw the freezing rect.
+  const clip = bounds.append('g').attr('clip-path', "url(#bounds-clip-path)")
+
+  // bounds.append('path').attr('class', 'line')
+  // IMPROVEMENT: Update our path to sit inside of new group instead of the bounds. Now our line's new point isn't fully visible until it has finished un-shifting.
+  clip.append("path").attr("class", "line")
+
   bounds
     .append('g')
     .attr('class', 'x-axis')
@@ -92,15 +109,19 @@ async function drawLineChart() {
 
     // OK...How do we shift it to the left instead?
     const lastTwoPoints = dataset.slice(-2) // Grab the last two points in our dataset
-    const pixelsBetweenLastPoints = xScale(xAccessor(lastTwoPoints[1])) - xScale(xAccessor(lastTwoPoints[0]))
+    const pixelsBetweenLastPoints =
+      xScale(xAccessor(lastTwoPoints[1])) - xScale(xAccessor(lastTwoPoints[0]))
 
     // Now when we update our line, we can instantly shift it to the right to match the old line
-    const line = bounds.select(".line")
-      .attr("d", lineGenerator(dataset))
+    const line = bounds
+      .select('.line')
+      .attr('d', lineGenerator(dataset))
       // Note how the shift to the right is effectively invisible because we are shifting our x scale to the left by the same amount
-      .style("transform", `translateX(${pixelsBetweenLastPoints}px)`)
+      .style('transform', `translateX(${pixelsBetweenLastPoints}px)`)
       // Now we can animate un-shifting the line to the left, to its normal position on the x axis
-      .transition().duration(1000).style("transform", "none") // Without this, our line animation is jagged
+      .transition()
+      .duration(1000)
+      .style('transform', 'none') // Without this, our line animation is jagged
 
     // 6. Draw peripherals
 
