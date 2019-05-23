@@ -39,6 +39,13 @@ async function createEvent() {
     // Fall back to grey when the mouse leaves
     .on("mouseout", function() { d3.select(this).style("fill", "lightgrey") })
 
+  // Remove a D3 event listener by passing null as the triggered function
+  setTimeout(() => {
+    console.log(`Removing D3 event listeners`)
+    rects
+      .on("mouseenter", null)
+      .on("mouseout", null)
+  }, 3000)
 
 }
 createEvent()
