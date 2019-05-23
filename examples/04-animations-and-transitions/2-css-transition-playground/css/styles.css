@@ -1,0 +1,26 @@
+.box {
+  background: cornflowerblue;
+  height: 100px;
+  width: 100px;
+  /* Example - Transition and change color over 1s */
+  /* transition-duration: 1s; */
+
+  /* Example - Transition over 1s; change color instantly */
+  /*
+  transition-duration: 1s;
+  transition-property: transform;
+  */
+  /* transition: transform 1s; */
+
+  /* Example - Add a transition-timing-function */
+  /* transition: transform 1s steps(6) */
+
+  /* Example - Box transitions by stepping to the right while turning green over 2s */
+  transition: transform 1s steps(6),
+              background 2s ease-out;
+}
+
+.box:hover {
+  background: yellowgreen;
+  transform: translateX(30px);
+}
