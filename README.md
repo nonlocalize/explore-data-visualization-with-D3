@@ -33,3 +33,17 @@ When they tab into a group of bars, they hear - "Histogram bars. List with sixte
 If an item is selected with a tab or by interacting with it directly, the user will hear something like “There were thirty-three days between point five and one WindSpeed levels.”
 
 ![screenshots/example-03d.png](screenshots/example-03d.png)
+
+## Example 04: Animations and Transitions
+
+### Demo 1: SVG animate
+
+### Demo 2: CSS transition playground
+
+### Demo 3a: Draw bars with CSS transition
+
+### Demo 3b: Draw bars with D3 transition
+
+### Demo 4: Draw line
+
+### Demo 5: Draw scatter
