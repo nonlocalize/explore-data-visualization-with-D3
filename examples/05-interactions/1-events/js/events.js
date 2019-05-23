@@ -17,20 +17,28 @@ async function createEvent() {
       .attr("x", (d,i) => i * 110)
       .attr("fill", "lightgrey")
 
-  // Let's inspect a D3 event listener
-  rects.on("mouseenter", function(datum, index, nodes) {
-    // Use ES6 object property shorthand for logging multiple variables
-    console.log({datum, index, nodes})
-    /*
-      {"datum":"yellowgreen","index":0,"nodes":Array(4)}
-      {"datum":"cornflowerblue","index":1,"nodes":Array(4)}
-      {"datum":"seagreen","index":2,"nodes":Array(4)}
-      {"datum":"slateblue","index":3,"nodes":Array(4)}
-    */
+  // // Let's inspect a D3 event listener
+  // rects.on("mouseenter", function(datum, index, nodes) {
+  //   // Use ES6 object property shorthand for logging multiple variables
+  //   console.log({datum, index, nodes})
+  //   /*
+  //     {"datum":"yellowgreen","index":0,"nodes":Array(4)}
+  //     {"datum":"cornflowerblue","index":1,"nodes":Array(4)}
+  //     {"datum":"seagreen","index":2,"nodes":Array(4)}
+  //     {"datum":"slateblue","index":3,"nodes":Array(4)}
+  //   */
 
-    // Aha! this automatically points at the DOM element that triggered the event; no need to find its index
-    console.log(this) // <rect height="100" width="100" x="220" fill="lightgrey"></rect>
-  })
+  //   // Aha! this automatically points at the DOM element that triggered the event; no need to find its index
+  //   console.log(this) // <rect height="100" width="100" x="220" fill="lightgrey"></rect>
+  // })
+
+  // IMPORTANT: Do NOT use fat arrow functions here. We need to access the targeted element with this and not the lexical scope fat arrow functions give us.
+  rects
+    // Set the fill color of the box when the mouse enters
+    .on("mouseenter", function(datum, index, nodes) { d3.select(this).style("fill", datum) })
+    // Fall back to grey when the mouse leaves
+    .on("mouseout", function() { d3.select(this).style("fill", "lightgrey") })
+
 
 }
 createEvent()
