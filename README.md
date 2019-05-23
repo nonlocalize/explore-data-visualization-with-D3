@@ -38,12 +38,38 @@ If an item is selected with a tab or by interacting with it directly, the user w
 
 ### Demo 1: SVG animate
 
+Quick demo on using the `<animate>` element within an SVG. This is a crude animation technique, and requires static start and end details for the target SVG.
+
+![screenshots/example-4a.gif](screenshots/example-04a.gif)
+
 ### Demo 2: CSS transition playground
+
+Simple demo to animate an SVG asset with CSS transitions.
+
+![screenshots/example-4b.gif](screenshots/example-04b.gif)
 
 ### Demo 3a: Draw bars with CSS transition
 
+Example using CSS transitions for animating our bars and the mean line.
+
+![screenshots/example-4c.gif](screenshots/example-04c.gif)
+
 ### Demo 3b: Draw bars with D3 transition
+
+This example demonstrates how we can color new bars that need to be added to the chart in green as well as color bars in red that are ready to be removed.
+
+One thing that we can do with D3 transitions that we could not do with CSS transitions is smoothly animate our axis and its related tick marks.
+
+![screenshots/example-4d.gif](screenshots/example-04d.gif)
 
 ### Demo 4: Draw line
 
+This uses a dataset that is constantly updating over time - including applying advanced techniques such as using a `clip-path` to make sure we are not drawing data outside of domain.
+
+![screenshots/example-4e.gif](screenshots/example-04e.gif)
+
 ### Demo 5: Draw scatter
+
+This example was not in the book, but the code sample was worth incorporating to see how we might look at animating a scatterplot when data is updated.
+
+![screenshots/example-4f.gif](screenshots/example-04f.gif)
