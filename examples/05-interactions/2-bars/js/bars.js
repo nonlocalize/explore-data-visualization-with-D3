@@ -146,5 +146,20 @@ async function drawBars() {
     .text('Humidity')
 
   // 7. Set up interactions
+
+  // Since we need to update our tooltip text and position when we hover over a bar, we need to use event listeners
+  binGroups
+    .select('rect')
+    .on('mouseenter', onMouseEnter)
+    .on('mouseleave', onMouseLeave)
+
+  function onMouseEnter(datum) {
+
+  }
+
+  function onMouseLeave(datum) {
+
+  }
+
 }
 drawBars()
