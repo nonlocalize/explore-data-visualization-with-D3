@@ -8,7 +8,7 @@ async function drawBars() {
   const width = 600
   let dimensions = {
     width: width,
-    height: width * 0.9,
+    height: width * 0.6,
     margin: {
       top: 30,
       right: 10,

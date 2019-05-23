@@ -5,6 +5,10 @@
     fill: cornflowerblue;
 }
 
+.bin rect:hover {
+    fill: purple;
+}
+
 .bin text {
     text-anchor: middle;
     fill: darkgrey;
