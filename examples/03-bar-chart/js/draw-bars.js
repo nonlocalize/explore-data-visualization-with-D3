@@ -18,6 +18,8 @@
   + Are there two types of days - humid and dry?
   + Are there crazy humid days?
 */
+
+// Accessibility win! When the user loads the page, the screen reader says: "Example oh-three - making a bar chart."
 async function drawBars() {
   // Access data
   const pathToJSON = './../data/seattle_wa_weather_data.json'
@@ -70,6 +72,7 @@ async function drawBars() {
       // Append a title so that screen readers can announce what the user is looking at
       .append("title")
         .text(`Histogram looking at the distribution of ${metric} in Seattle over the past year`)
+        // Accessibility win! Now when the bins group is highlighted, the screen reader will announce: "histogram bars. List with 15 items."
 
     // Create scales
     const xScale = d3
@@ -136,7 +139,7 @@ async function drawBars() {
         } ${
           metric
         } levels.`)
-
+      // Accessibility win! Now when a list item is highlighted, the screen reader will say: "There were thirty-three days between point five and one WindSpeed levels"
     // Draw our bars
     const barPadding = 1
     const barRects = binGroups
