@@ -81,6 +81,10 @@ async function drawScatter() {
   // Turn our delaunay triangulation into a voronoi diagram
   const voronoi = delaunay.voronoi()
 
+  // Specify the size of our diagram
+  voronoi.xmax = dimensions.boundedWidth
+  voronoi.ymax = dimensions.boundedHeight
+
   // Bind our data and add a <path> for each data point with a class of voronoi for styling with our CSS file
   bounds.selectAll(".voronoi")
     .data(dataset)
