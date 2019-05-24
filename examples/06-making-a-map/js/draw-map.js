@@ -47,8 +47,26 @@ async function drawMap() {
   dimensions.height = dimensions.boundedHeight
 
   // Draw canvas
+  const wrapper = d3.select("#wrapper")
+    .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height)
 
-  // Create scales
+  const bounds = wrapper.append("g")
+    .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
+
+  // Create scales - The x and y scales are handled by our map projection; we just need a scale to turn metric values into colors
+  const metricValues = Object.values(metricDataByCountry) // Grab all of the population growth values
+  const metricValueExtent = d3.extent(metricValues) // Extract the smallest and largest values
+  // console.log(metricValueExtent)  // ["-0.0267006062623867", "4.669194641437"]
+
+  // Our extent starts below zero, meaning that at least one country experienced negative population growth. Let's represent decline on a red color scale, growth on a green color scale, and neutral as white - a "diverging" color scale. All we need to do is add a middle value to the domain and range.
+  const maxChange = d3.max([-metricValueExtent[0], metricValueExtent[1]])
+  const colorScale = d3.scaleLinear()
+    // We are creating a scale which scales evenly on both sides
+    .domain([-maxChange, 0, maxChange])
+    // ACCESSIBILITY FTW: Why did we choose indigo and darkgreen? Common color blindness is red-green color blindness; this will allow those users to see differences in our color scale
+    .range(["indigo", "white", "darkgreen"])
 
   // Draw data
 
