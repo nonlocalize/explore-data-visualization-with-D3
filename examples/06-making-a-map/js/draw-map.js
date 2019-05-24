@@ -15,6 +15,17 @@ async function drawMap() {
   })
 
   // Create chart dimensions
+  // WORK IN PROGRESS: Hold off on height for now; it will depend on our projection - which will use a combonation of distortion (stretching parts of the map) and slicing to approximate the Earth's actual shape
+  let dimensions = {
+    width: window.innerWidth * 0.9,
+    margin: {
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10,
+    },
+  }
+  dimensions.boundedWidth = dimensions.width
 
   // Draw canvas
 
