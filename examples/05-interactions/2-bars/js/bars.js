@@ -153,8 +153,17 @@ async function drawBars() {
     .on('mouseenter', onMouseEnter)
     .on('mouseleave', onMouseLeave)
 
+  const tooltip = d3.select("#tooltip")
   function onMouseEnter(datum) {
+    const formatHumidity = d3.format(".2f") // 0.6000000000000001 => 0.60
 
+    // Update #range to display the values of the bar
+    tooltip.select("#range")
+      // .text([datum.x0, datum.x1].join(" - ")) // 0.55 - 0.6000000000000001
+      .text([formatHumidity(datum.x0), formatHumidity(datum.x1)].join(" - ")) // 0.60
+
+    // Update #count to display the y value of the bar
+    tooltip.select("#count").text(yAccessor(datum))
   }
 
   function onMouseLeave(datum) {
