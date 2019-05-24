@@ -96,6 +96,44 @@ async function drawScatter() {
       .text("relative humidity")
 
   // 7. Set up interactions
+  bounds.selectAll("circle")
+    .on("mouseenter", onMouseEnter)
+    .on("mouseleave", onMouseLeave)
 
+  const tooltip = d3.select("#tooltip")
+  function onMouseEnter(datum, index) {
+    // We want to display the metric on our x axis (dew point) and the metric on our y axis (humidity)
+    const formatDewPoint = d3.format(".2f")
+    tooltip.select("#dew-point").text(formatDewPoint(xAccessor(datum)))
+
+    const formatHumidity = d3.format(".2f")
+    tooltip.select("#humidity").text(formatHumidity(yAccessor(datum)))
+
+    // // Let's log the date (ex "2019-01-01") in a friendlier format use timeParse()
+    // const dateParser = d3.timeParse("%Y-%m-%d")
+    // console.log(dateParser(datum.date)) // Thu Sep 06 2018 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+    // Let's use timeFormat() to take a date formatter string and return a formatter function - see https://github.com/d3/d3-time-format
+    const dateParser = d3.timeParse("%Y-%m-%d")
+    const formatDate = d3.timeFormat("%A, %B %d, %Y")
+    console.log(formatDate(dateParser(datum.date))) // Thursday, September 06, 2018
+
+    // Plug the new date string into our tooltip
+    tooltip.select("#date").text(formatDate(dateParser(datum.date)))
+
+    // Grab the x and y value of our dot; offset by the left and top margins
+    const x = xScale(xAccessor(datum)) + dimensions.margin.left
+    const y = yScale(yAccessor(datum)) + dimensions.margin.top
+
+    // Use calc() to add these values to percentage offsets needed to shift the tooltip - we're positioning its arrow, not the top left corner
+    tooltip.style("transform", `translate(calc(-50% + ${x}px), calc(-100% + ${y}px))`)
+
+    // Make our tooltip visible
+    tooltip.style("opacity", 1)
+
+  }
+  function onMouseLeave(datum, index) {
+    tooltip.style("opacity", 0) // Hide our tooltip
+  }
 }
 drawScatter()
