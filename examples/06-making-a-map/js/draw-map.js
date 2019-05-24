@@ -175,6 +175,25 @@ async function drawMap() {
     .text(`${d3.format('.1f')(-maxChange)}%`)
     .style('text-anchor', 'end')
 
+  // Mark the user's current location
+  navigator.geolocation.getCurrentPosition(myPosition => {
+    console.log(myPosition)
+    // Use our projection to turn our location into a set of x, y coordinates
+    const [x, y] = projection([
+      myPosition.coords.longitude,
+      myPosition.coords.latitude
+    ])
+
+    // Draw a circle in that location with an animated radius to attract the user's attention
+    const myLocation = bounds.append("circle")
+      .attr("class", "my-location")
+      .attr("cx", x)
+      .attr("cy", y)
+      .attr("r", 0)
+      .transition().duration(500)
+        .attr("r", 10)
+  })
+
   // Set up interactions
 }
 drawMap()
