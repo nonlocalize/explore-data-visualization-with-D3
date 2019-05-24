@@ -67,6 +67,31 @@ async function drawScatter() {
   }
   drawDots(dataset)
 
+  /* ------------------------------------------------------------- */
+  /*
+    CHALLENGE: We have the tooltip styled and in place, but notice:
+      + The tiny dots are hard to hover over
+      + Our tooltip disappears when moving between points, making the interaction jerky
+
+    SOLUTION: Let's solve this with Voronoi diagrams. Instead of using the deprecated voronoi generator built into D3 - d3-voronoi - we will be using the speedier third-party library d3-delaunay
+  */
+  // Create a new Delaunay triangulation passing in our dataset, x accessor function, and y accessor function
+  const delaunay = d3.Delaunay.from(dataset, d => xScale(xAccessor(d)), d => yScale(yAccessor(d)))
+
+  // Turn our delaunay triangulation into a voronoi diagram
+  const voronoi = delaunay.voronoi()
+
+  // Bind our data and add a <path> for each data point with a class of voronoi for styling with our CSS file
+  bounds.selectAll(".voronoi")
+    .data(dataset)
+    .enter().append("path")
+      .attr("class", "voronoi")
+      // Create each path's d attribute string using voronoi.renderCell(i)
+      .attr("d", (d,i) => voronoi.renderCell(i))
+      // Give our polygons a stroke so we can see them
+      .attr("stroke", "salmon")
+
+  /* ------------------------------------------------------------- */
   // 6. Draw peripherals
 
   const xAxisGenerator = d3.axisBottom()
