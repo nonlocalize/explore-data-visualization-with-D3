@@ -109,7 +109,16 @@ async function drawLineChart() {
     .on("mouseleave", onMouseLeave)
 
   const tooltip = d3.select("#tooltip")
-  function onMouseMove() {
+
+  // EXTRA CREDIT: Position a circle over the spot we're hovering over
+  const tooltipCircle = bounds.append("circle") // Draw and then immediately hide it
+    .attr("r", 4)
+    .attr("stroke", "#af9358")
+    .attr("fill", "white")
+    .attr("stroke-width", 2)
+    .style("opacity", 0)
+
+    function onMouseMove() {
     // How will we know the location on our line that we are hovering over?
     const mousePosition = d3.mouse(this)  // this refers to listeningRect
     // We can use the .invert() method of xScale() to convert our units backward - from the range to the domain, instead of from the domain to the range (default)
@@ -139,11 +148,18 @@ async function drawLineChart() {
     // Shift our tooltip
     tooltip.style("transform", `translate(calc(-50% + ${x}px), calc(-100% + ${y}px))`)
 
+    // Position our tooltip circle and display it
+    tooltipCircle
+      .attr("cx", xScale(closestXValue))
+      .attr("cy", yScale(closestYValue))
+      .style("opacity", 1)
+
     // Display our tooltip
     tooltip.style("opacity", 1)
   }
   function onMouseLeave() {
     tooltip.style("opacity", 0) // Hide our tooltip
+    tooltipCircle.style("opacity", 0) // Hide our tooltip circle
   }
 
 }
