@@ -20,6 +20,7 @@
 }
 
 .listening-rect {
+  fill: transparent;  /* Default fill color is black */
 }
 
 body {
