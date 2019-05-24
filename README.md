@@ -148,3 +148,7 @@ In this example, we are going to run the following commands:
 $ cd examples/06-making-a-map/data/
 $ ogr2ogr -f GeoJSON ./world-geojson.json ./ne_50m_admin_0_countries.shp
 ```
+
+### Draw map
+
+I have downloaded a dataset from [The World Bank](https://databank.worldbank.org/data/source/world-development-indicators#) as a CSV file to view the population growth metric - available at `examples/06-making-a-map/data/world_bank_data.csv`
