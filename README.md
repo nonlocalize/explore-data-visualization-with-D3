@@ -110,3 +110,41 @@ Instead of forcing the user to hover on specific points on the line graph, this 
 
 ## Example 06: Making a map
 
+### Introduction to GeoJSON
+
+This section starts off with an overview of [GeoJSON](https://tools.ietf.org/html/rfc7946) - a format used to represent geographic structures.
+
+Start off using [Natural Earth](https://www.naturalearthdata.com) - which is a great source for public domain map data. Download the [Admin 0 - Countries](https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/) dataset.
+
+This download will contain various formats. We are interested in the shapefiles - extensions `shp` and `shx`. We can use a tool such as [GDAL](http://trac.osgeo.org/gdal/wiki/DownloadingGdalBinaries) - Geographic Data Abstraction Library - to convert our shapefile into a JSON file.
+
+#### Geographic Data Abstraction Library (GDAL)
+
+##### Installation on macOS
+
+If you're on a computer running macOS Mojave, the first thing you should do is ensure you have the latest `homebrew` installed:
+
+```sh
+$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+Next, install gdal. This will take a few minutes to build, so take a moment and treat yourself to a beverage of your choosing:
+
+```sh
+$ brew install gdal
+```
+
+##### Convert shapefile to JSON
+
+To convert a shapefile to a JSON file containing GeoJSON data:
+
+```sh
+$ ogr2ogr -f GeoJSON ./path/to/target.json ./path/to/source.shp
+```
+
+In this example, we are going to run the following commands:
+
+```sh
+$ cd examples/06-making-a-map/data/
+$ ogr2ogr -f GeoJSON ./world-geojson.json ./ne_50m_admin_0_countries.shp
+```
