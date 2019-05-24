@@ -195,5 +195,24 @@ async function drawMap() {
   })
 
   // Set up interactions
+  countries
+    .on("mouseenter", onMouseEnter)
+    .on("mouseleave", onMouseLeave)
+
+  const tooltip = d3.select("#tooltip")
+
+  function onMouseEnter(datum) {  // REMEMBER: datum contains data bound to the hovered element
+    tooltip.style("opacity", 1) // Display tooltip
+
+    // Build our tooltip
+    const metricValue = metricDataByCountry[countryIdAccessor(datum)]
+    tooltip.select("#country").text(countryNameAccessor(datum))
+    tooltip.select("#value").text(`${d3.format(",.2f")(metricValue || 0)}`)
+  }
+  function onMouseLeave() {
+    tooltip.style("opacity", 0) // Hide tooltip
+  }
+
+
 }
 drawMap()
