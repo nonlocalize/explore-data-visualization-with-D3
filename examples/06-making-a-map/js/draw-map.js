@@ -88,7 +88,11 @@ async function drawMap() {
       .attr("class", "country")
       // REMEMBER: .attr("d", pathGenerator) is the same as .attr("d", d => pathGenerator(d))
       .attr("d", pathGenerator)
-      .attr("fill", d => {})
+      .attr("fill", d => {
+        const metricValue = metricDataByCountry[countryIdAccessor(d)] // Get the country's ID
+        if (typeof metricValue === undefined) return "#e2e6e9"  // If we are missing data, return white
+        return colorScale(metricValue)  // Fill with the value from our colorScale
+      })
 
   // Draw peripherals
 

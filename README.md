@@ -153,6 +153,10 @@ $ ogr2ogr -f GeoJSON ./world-geojson.json ./ne_50m_admin_0_countries.shp
 
 I have downloaded a dataset from [The World Bank](https://databank.worldbank.org/data/source/world-development-indicators#) as a CSV file to view the population growth metric - available at `examples/06-making-a-map/data/world_bank_data.csv`
 
-Here is an example of drawing a map using a `geoEqualEarth` projection without any custom fill:
+Here is an example of drawing a map using a `geoEqualEarth` projection without any custom fill.
 
 ![screenshots/example-06a.png](screenshots/example-06a.png)
+
+Here is an example of drawing a map using a `geoEqualEarth` projection and coloring countries according to the rate of population growth in 2017 from The World Bank.
+
+![screenshots/example-06b.png](screenshots/example-06b.png)
