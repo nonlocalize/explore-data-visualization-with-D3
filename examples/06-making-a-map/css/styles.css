@@ -7,7 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5em 2em;
+  padding: 2em;
   letter-spacing: -0.011em;
   font-family: 'Inter var', sans-serif;
   font-size: 16px;
@@ -38,10 +38,6 @@ body {
 
 circle {
   pointer-events: none;
-}
-
-.voronoi {
-  fill: transparent;
 }
 
 .tooltip {
@@ -81,4 +77,29 @@ circle {
 
 .tooltip-value {
   font-size: 0.8em;
+}
+
+.legend-title {
+  fill: #576574;
+  text-anchor: middle;
+  font-weight: 900;
+  font-size: 0.95em;
+  letter-spacing: 0.01em;
+}
+
+.legend-byline {
+  fill: #576574;
+  opacity: 0.6;
+  text-anchor: middle;
+  font-size: 0.7em;
+}
+
+.legend-value {
+  fill: #576574;
+  dominant-baseline: middle;
+  font-size: 0.8em;
+}
+
+.legend-value:first-of-type {
+  text-anchor: end;
 }
