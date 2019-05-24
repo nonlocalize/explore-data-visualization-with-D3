@@ -164,10 +164,47 @@ async function drawBars() {
 
     // Update #count to display the y value of the bar
     tooltip.select("#count").text(yAccessor(datum))
+
+    /*
+        Position our tooltip horizontally centered above the bar when we hover over it
+
+        TIP: To calculate our tooltip's x position, we'll need to take three things into account:
+          + The bar's x position in the chart => xScale(datum.x0)
+          + Half of the bar's width => (xScale(datum.x1) - xScale(datum.x0) / 2
+          + The margin by which our bounds are shifted right => dimensions.margin.left
+
+        REMEMBER: Our tooltip is located at the top left of our wrapper, the outer container of our chart. However, since the bars are within our bounds, they are shifted by the margins we specified.
+
+        TIP: To calculate our tooltip's y position, we don't need to take into account the bar's dimensions because we want it placed above the bar. We just need to take the following into account:
+          + The bar's y position in the chart => yScale(yAccessor(datum))
+          + The margin by which our bounds are shifted down => dimensions.margin.top
+    */
+
+    // Calculate the x position of our tooltip
+    const xPositionOfBarInChart = xScale(datum.x0)
+    const widthOfBarInChart = xScale(datum.x1) - xScale(datum.x0)
+    const boundsMarginOfShiftToRight = dimensions.margin.left
+    const x = xPositionOfBarInChart + (widthOfBarInChart / 2) + boundsMarginOfShiftToRight
+
+    // Calculate the y position of our tooltip
+    const yPositionOfBarInChart = yScale(yAccessor(datum))
+    const boundsMarginOfShiftDown = dimensions.margin.top
+    const y = yPositionOfBarInChart + boundsMarginOfShiftDown
+
+    // Let's use a CSS transform since our tooltip is a normal xHTML div
+
+    // // Close, but not quite. The top left of the tooltip is in the right location.
+    // tooltip.style("transform", `translate(${x}px, ${y}px)`)
+
+    // SOLUTION: Use calc() to offset our tooptip up half of its own width (-50%) and left (-100%) of its own height
+    tooltip.style("transform", `translate(calc(-50% + ${x}px), calc(-100% + ${y}px))`)
+
+    // Now that we have styled our tooltip, it's time to display it to the user
+    tooltip.style("opacity", 1)
   }
 
   function onMouseLeave(datum) {
-
+    tooltip.style("opacity", 0) // Hide our tooltip
   }
 
 }
