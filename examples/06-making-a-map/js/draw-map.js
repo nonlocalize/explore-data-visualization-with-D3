@@ -15,7 +15,7 @@ async function drawMap() {
   })
 
   // Create chart dimensions
-  // WORK IN PROGRESS: Hold off on height for now; it will depend on our projection - which will use a combonation of distortion (stretching parts of the map) and slicing to approximate the Earth's actual shape
+  // Height will depend on our projection - which will use a combonation of distortion (stretching parts of the map) and slicing to approximate the Earth's actual shape
   let dimensions = {
     width: window.innerWidth * 0.9,
     margin: {
@@ -26,6 +26,25 @@ async function drawMap() {
     },
   }
   dimensions.boundedWidth = dimensions.width
+
+  // Define our globe using a mock GeoJSON object
+  const sphere = ({ type: "Sphere" })
+  const projection = d3.geoEqualEarth() // Each projection function has its own default size (think: range)
+    .fitWidth(dimensions.boundedWidth, sphere)  // Define our projection to be the same width as our bounds
+  const pathGenerator = d3.geoPath(projection)  // Generator function to help create our geographical shapes
+
+  // Test
+  // console.log(pathGenerator(sphere))  // Gives us a <path> d string
+
+  // // How do we find out how tall that path is? Use the .bounds() method of the pathGenerator
+  // console.log(pathGenerator.bounds(sphere))
+  // // Returns an array of [x, y] coordinates describing a bounding box for the specified GeoJSON object
+
+  const [[x0, y0], [x1, y1]] = pathGenerator.bounds(sphere)
+
+  // We want the entire Earth to fit without our bounds, so define our boundedHeight to just cover the sphere
+  dimensions.boundedHeight = y1
+  dimensions.height = dimensions.boundedHeight
 
   // Draw canvas
 
