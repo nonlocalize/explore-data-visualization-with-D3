@@ -125,7 +125,7 @@ async function drawScatter() {
       .text("relative humidity")
 
   // 7. Set up interactions
-  bounds.selectAll("circle")
+  bounds.selectAll(".voronoi")
     .on("mouseenter", onMouseEnter)
     .on("mouseleave", onMouseLeave)
 
@@ -144,8 +144,7 @@ async function drawScatter() {
 
     // Let's use timeFormat() to take a date formatter string and return a formatter function - see https://github.com/d3/d3-time-format
     const dateParser = d3.timeParse("%Y-%m-%d")
-    const formatDate = d3.timeFormat("%A, %B %d, %Y")
-    console.log(formatDate(dateParser(datum.date))) // Thursday, September 06, 2018
+    const formatDate = d3.timeFormat("%A, %B %d, %Y") // Thursday, September 06, 2018
 
     // Plug the new date string into our tooltip
     tooltip.select("#date").text(formatDate(dateParser(datum.date)))
