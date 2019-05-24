@@ -78,16 +78,32 @@ This example was not in the book, but the code sample was worth incorporating to
 
 ### Demo 1: Events
 
+This example uses D3 to add `mouseenter` and `mouseout` events to SVG elements - and removes them 3 seconds later.
 
+![screenshots/example-5a.gif](screenshots/example-05a.gif)
+
+One optimization here was to make sure our rectangles were not left in a hovered state by dispatching a `mouseout` event before removing the event listeners.
 
 ### Demo 2: Bars
 
+Adding a tooltip to our histogram bar chart.
 
+![screenshots/example-5b.gif](screenshots/example-05b.gif)
 
 ### Demo 3: Scatter
 
+Instead of forcing the user to hover on a small target dot for a tooltip, this example employs the use of a [Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram) to create polygons users can hover over to display the tooltip - as well as drawing a larger dot to emphasize the specific data point being viewed.
 
+Here is an example with the generated [Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram) visible to the user:
+
+![screenshots/example-5c.gif](screenshots/example-05c.gif)
+
+Here is an example with the generated [Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram) that is not visible to the user:
+
+![screenshots/example-5d.gif](screenshots/example-05d.gif)
 
 ### Demo 4: Line
 
+Instead of forcing the user to hover on specific points on the line graph, this example draws a transparent `rect` over the entire chart; allowing the user to have a tooltip displayed when they hover anywhere on the graph.
 
+![screenshots/example-5e.gif](screenshots/example-05e.gif)
