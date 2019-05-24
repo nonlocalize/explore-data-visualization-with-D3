@@ -70,6 +70,26 @@ async function drawMap() {
 
   // Draw data
 
+  // Draw the outline of the Earth first (all other elements will cover this outline)
+  const earth = bounds.append("path")
+    .attr("class", "earth")
+    .attr("d", pathGenerator(sphere))
+
+  // Draw a graticule - a grid of latitudinal and longitudinal lines
+  const graticuleJson = d3.geoGraticule10() // Generates a classic graticule with lines every 10 degrees
+  const graticule = bounds.append("path")   // pathGenerator() knows how to handle any GeoJSON type
+    .attr("class", "graticule")
+    .attr("d", pathGenerator(graticuleJson))
+
+  // Draw our countries
+  const countries = bounds.selectAll(".country")
+    .data(countryShapes.features) // D3 will create one element per item in the dataset we pass in here
+    .enter().append("path")       // Create a new <path> for each item in our list of countries
+      .attr("class", "country")
+      // REMEMBER: .attr("d", pathGenerator) is the same as .attr("d", d => pathGenerator(d))
+      .attr("d", pathGenerator)
+      .attr("fill", d => {})
+
   // Draw peripherals
 
   // Set up interactions
