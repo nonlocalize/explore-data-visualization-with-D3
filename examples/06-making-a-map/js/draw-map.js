@@ -208,6 +208,26 @@ async function drawMap() {
     const metricValue = metricDataByCountry[countryIdAccessor(datum)]
     tooltip.select("#country").text(countryNameAccessor(datum))
     tooltip.select("#value").text(`${d3.format(",.2f")(metricValue || 0)}`)
+
+    // Position our tooltip at the center of the hovered element
+    const [centerX, centerY] = pathGenerator.centroid(datum)
+
+    // // TEST: Draw a circle at the center of the element
+    // const hoveredCircle = bounds.append("circle")
+    //   .attr("cx", centerX)
+    //   .attr("cy", centerY)
+    //   .attr("r", 3)
+
+    // REMEMBER: We want to shift the tooltip with our top and left margins since it lives outside our bounds
+    const x = centerX + dimensions.margin.left
+    const y = centerY + dimensions.margin.top
+
+    tooltip.style("transform", `translate(`
+      + `calc( -50% + ${x}px),`
+      + `calc(-100% + ${y}px)`
+      + `)`)
+
+
   }
   function onMouseLeave() {
     tooltip.style("opacity", 0) // Hide tooltip
