@@ -107,3 +107,6 @@ Here is an example with the generated [Voronoi diagram](https://en.wikipedia.org
 Instead of forcing the user to hover on specific points on the line graph, this example draws a transparent `rect` over the entire chart; allowing the user to have a tooltip displayed when they hover anywhere on the graph.
 
 ![screenshots/example-5e.gif](screenshots/example-05e.gif)
+
+## Example 06: Making a map
+
