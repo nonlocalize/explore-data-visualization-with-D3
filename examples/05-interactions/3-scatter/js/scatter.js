@@ -131,6 +131,15 @@ async function drawScatter() {
 
   const tooltip = d3.select("#tooltip")
   function onMouseEnter(datum, index) {
+    // Draw a dot to make sure our hovered dot is larger and on top of any neighboring dots
+    const dayDot = bounds.append("circle")
+        .attr("class", "tooltipDot")
+        .attr("cx", d => xScale(xAccessor(datum)))
+        .attr("cy", d => yScale(yAccessor(datum)))
+        .attr("r", 7)
+        .style("fill", "maroon")
+        .style("pointer-events", "none")
+
     // We want to display the metric on our x axis (dew point) and the metric on our y axis (humidity)
     const formatDewPoint = d3.format(".2f")
     tooltip.select("#dew-point").text(formatDewPoint(xAccessor(datum)))
@@ -162,6 +171,7 @@ async function drawScatter() {
   }
   function onMouseLeave(datum, index) {
     tooltip.style("opacity", 0) // Hide our tooltip
+    d3.selectAll(".tooltipDot").remove()  // Remove the dot drawn by the tooltip hover
   }
 }
 drawScatter()
