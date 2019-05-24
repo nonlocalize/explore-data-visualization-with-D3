@@ -160,3 +160,7 @@ Here is an example of drawing a map using a `geoEqualEarth` projection without a
 Here is an example of drawing a map using a `geoEqualEarth` projection and coloring countries according to the rate of population growth in 2017 from The World Bank.
 
 ![screenshots/example-06b.png](screenshots/example-06b.png)
+
+This is the finished example which includes drawing an animated circle for the user's location (if they give permission), creating a legend with a gradient, and tooltip that appears over the center of the country the user has hovered over.
+
+![screenshots/example-6c.gif](screenshots/example-06c.gif)
