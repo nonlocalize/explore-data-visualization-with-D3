@@ -1,5 +1,6 @@
 const contents = d3.select("#contents")
 
+// Use our d3ColorScales constant to review built-in D3 color scales
 d3ColorScales.map(type => {
   const container = contents.append("div")
       .attr("class", "scale-type")
