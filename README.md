@@ -183,3 +183,7 @@ This design revamp displays relative humidity with the following enhancements:
 ![screenshots/example-07a.png](screenshots/example-07a.png)
 
 ### Demo 2: Color scales
+
+This example contains a number of quick and easy references for generating color scales using D3.
+
+![screenshots/example-07b.png](screenshots/example-07b.png)
