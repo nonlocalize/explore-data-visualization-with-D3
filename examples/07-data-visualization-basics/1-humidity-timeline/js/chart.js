@@ -9,6 +9,7 @@ async function drawLineChart() {
   const dateFormatter = d3.timeFormat("%Y-%m-%d")
   const xAccessor = d => dateParser(d.date)
   dataset = dataset.sort((a,b) => xAccessor(a) - xAccessor(b))
+  const downsampledData = downsampleData(dataset, xAccessor, yAccessor)
   const weeks = d3.timeWeeks(xAccessor(dataset[0]), xAccessor(dataset[dataset.length - 1]))
 
   // 2. Create chart dimensions
@@ -150,6 +151,15 @@ async function drawLineChart() {
 
 
   // 6. Draw peripherals
+  const seasonLabels = bounds.selectAll(".season-label")
+      .data(seasonsData)
+    .enter().append("text")
+      .filter(d => xScale(d.end) - xScale(d.start) > 60)
+      .attr("x", d => xScale(d.start) + ((xScale(d.end) - xScale(d.start)) / 2))
+      .attr("y", dimensions.boundedHeight + 30)
+      .text(d => `${d.name} ${d3.timeFormat("%Y")(d.end)}`) // Season name with year (e.g. "Spring 2018")
+      .attr("class", "season-label")
+
   const yAxisGenerator = d3.axisLeft()
     .scale(yScale)
     // Simply our y axis so that we only see three tick marks for simplicity
@@ -165,14 +175,15 @@ async function drawLineChart() {
       .attr("class", "y-axis-label")
       .text("relative humidity")
 
-  const xAxisGenerator = d3.axisBottom()
-    .scale(xScale)
-    .ticks()
+  // Remove x axis tick marks so we can just display our season names
+  // const xAxisGenerator = d3.axisBottom()
+  //   .scale(xScale)
+  //   .ticks()
 
-  const xAxis = bounds.append("g")
-      .attr("class", "x-axis")
-      .style("transform", `translateY(${dimensions.boundedHeight}px)`)
-    .call(xAxisGenerator)
+  // const xAxis = bounds.append("g")
+  //     .attr("class", "x-axis")
+  //     .style("transform", `translateY(${dimensions.boundedHeight}px)`)
+  //   .call(xAxisGenerator)
 }
 drawLineChart()
 
