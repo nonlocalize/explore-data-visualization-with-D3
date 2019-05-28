@@ -164,3 +164,26 @@ Here is an example of drawing a map using a `geoEqualEarth` projection and color
 This is the finished example which includes drawing an animated circle for the user's location (if they give permission), creating a legend with a gradient, and tooltip that appears over the center of the country the user has hovered over.
 
 ![screenshots/example-6c.gif](screenshots/example-06c.gif)
+
+## Example 07: Data visualization basics
+
+### Demo 1: Redesign humidity chart
+
+This design revamp displays relative humidity with the following enhancements:
+
++ Improve readability of our chart
+  - Simplified Y axis with a reduced number of tick marks
+  - Display of an inline Y axis label instead of creating a hard to read rotate text label on the left side of our chart
+  - Smooth, curved lines for the data points instead of a jagged line
+  - Use of dots to indicate original data point values
+  - Drawing rectangles for seasons corresponding to our data
+  - Drawing a season mean line to quickly compare relative humidity for each season in our data set
+  - Simplfied X axis to display season and year details
+
+![screenshots/example-07a.png](screenshots/example-07a.png)
+
+### Demo 2: Color scales
+
+This example contains a number of quick and easy references for generating color scales using D3.
+
+![screenshots/example-07b.png](screenshots/example-07b.png)

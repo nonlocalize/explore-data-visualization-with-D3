@@ -24,6 +24,7 @@ const customScalesContainer = contents.append("div")
 customScalesContainer.append("h3")
     .text("Custom")
 
+// Helper function to add a custom scale to our chart
 const addCustomScale = (name, scale) => {
   customScalesContainer.append("div")
       .text(name)
@@ -33,7 +34,7 @@ const addCustomScale = (name, scale) => {
 
 const interpolateWithSteps = numberOfSteps => new Array(numberOfSteps).fill(null).map((d, i) => i / (numberOfSteps - 1))
 
-// add more custom scales here
+// We can create our own custom scales by supplying a starting and ending color to d3.interpolateXXX() functions
 addCustomScale(
   "interpolate-rgb",
   d3.interpolateRgb("cyan", "tomato"),
@@ -51,14 +52,14 @@ addCustomScale(
 
 addCustomScale(
   "interpolate-hcl-steps",
-  interpolateWithSteps(6).map(
+  interpolateWithSteps(6).map(  // Generates five colors
     d3.interpolateHcl("cyan", "tomato")
   )
 )
 
 addCustomScale(
   "interpolate-rainbow-steps",
-  interpolateWithSteps(10).map(
+  interpolateWithSteps(10).map( // Generates nine colors
     d3.interpolateRainbow
   )
 )
