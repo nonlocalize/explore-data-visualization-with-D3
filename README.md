@@ -164,3 +164,5 @@ Here is an example of drawing a map using a `geoEqualEarth` projection and color
 This is the finished example which includes drawing an animated circle for the user's location (if they give permission), creating a legend with a gradient, and tooltip that appears over the center of the country the user has hovered over.
 
 ![screenshots/example-6c.gif](screenshots/example-06c.gif)
+
+## Example 07: Data visualization basics
