@@ -55,9 +55,10 @@ async function drawLineChart() {
       .tickSize(-dimensions.boundedWidth)
       .tickFormat("")
 
-  const yAxisGridMarks = bounds.append("g")
-      .attr("class", "y-axis-grid-marks")
-    .call(yAxisGeneratorGridMarks)
+  // Remove the grid marks
+  // const yAxisGridMarks = bounds.append("g")
+  //     .attr("class", "y-axis-grid-marks")
+  //   .call(yAxisGeneratorGridMarks)
 
   // 5. Draw data
 
@@ -85,7 +86,8 @@ async function drawLineChart() {
 
   const yAxisGenerator = d3.axisLeft()
     .scale(yScale)
-    .ticks()
+    // Simply our y axis so that we only see three tick marks for simplicity
+    .ticks(3)
 
   const yAxis = bounds.append("g")
       .attr("class", "y-axis")
