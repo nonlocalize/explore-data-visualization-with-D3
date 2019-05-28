@@ -181,3 +181,5 @@ This design revamp displays relative humidity with the following enhancements:
   - Simplfied X axis to display season and year details
 
 ![screenshots/example-07a.png](screenshots/example-07a.png)
+
+### Demo 2: Color scales
