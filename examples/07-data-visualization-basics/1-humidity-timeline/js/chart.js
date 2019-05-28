@@ -175,6 +175,13 @@ async function drawLineChart() {
       .attr("class", "y-axis-label")
       .text("relative humidity")
 
+  // Add an inline Y axis label instead of having hard to read rotated text on the left side of our chart
+  const yAxisLabelSuffix = bounds.append("text")
+    // Pick a nice Y position to display our inline label
+    .attr("y", 5)
+    .text("Relative humidity in Seattle")
+    .attr("class", "y-axis-label y-axis-label-suffix")
+
   // Remove x axis tick marks so we can just display our season names
   // const xAxisGenerator = d3.axisBottom()
   //   .scale(xScale)
