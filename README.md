@@ -169,3 +169,15 @@ This is the finished example which includes drawing an animated circle for the u
 
 ### Demo 1: Redesign humidity chart
 
+This design revamp displays relative humidity with the following enhancements:
+
++ Improve readability of our chart
+  - Simplified Y axis with a reduced number of tick marks
+  - Display of an inline Y axis label instead of creating a hard to read rotate text label on the left side of our chart
+  - Smooth, curved lines for the data points instead of a jagged line
+  - Use of dots to indicate original data point values
+  - Drawing rectangles for seasons corresponding to our data
+  - Drawing a season mean line to quickly compare relative humidity for each season in our data set
+  - Simplfied X axis to display season and year details
+
+![screenshots/example-07a.png](screenshots/example-07a.png)
