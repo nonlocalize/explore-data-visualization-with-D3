@@ -61,6 +61,7 @@ async function drawLineChart() {
 
   // 5. Draw data
 
+  // Even though we're drawing a smooth line, let's add the original data points in as small dots
   const dots = bounds.selectAll(".dot")
     .data(dataset)
     .enter().append("circle")
@@ -72,6 +73,7 @@ async function drawLineChart() {
   const lineGenerator = d3.area()
     .x(d => xScale(xAccessor(d)))
     .y(d => yScale(yAccessor(d)))
+    // Let's create a smoother curved line instead of a jagged one
     .curve(d3.curveBasis)
 
   const line = bounds.append("path")
@@ -106,7 +108,7 @@ async function drawLineChart() {
 }
 drawLineChart()
 
-
+// Let's cut down on the noisiness of our daily data points. This function allows us to pass in our dataset, xAccessor, and yAccessors so that we can receive a downsampled dataset with weekly values instead of daily values.
 function downsampleData(data, xAccessor, yAccessor) {
   const weeks = d3.timeWeeks(xAccessor(data[0]), xAccessor(data[data.length - 1]))
 
