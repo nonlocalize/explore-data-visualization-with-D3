@@ -55,12 +55,79 @@ async function drawLineChart() {
       .tickSize(-dimensions.boundedWidth)
       .tickFormat("")
 
-  // Remove the grid marks
-  // const yAxisGridMarks = bounds.append("g")
-  //     .attr("class", "y-axis-grid-marks")
-  //   .call(yAxisGeneratorGridMarks)
-
   // 5. Draw data
+  const seasonBoundaries = [
+    "3-20", // Spring starts on March 20th of every year
+    "6-21", // Summer starts on June 21st of every year
+    "9-21", // Fall starts on September 21st of every year
+    "12-21",  // Winter starts on December 21st of every year
+  ]
+
+  // Season name here correlates to the appropriate start date in seasonBoundaries
+  const seasonNames = ["Spring", "Summer", "Fall", "Winter"]
+  let seasonsData = []
+
+  // Identify the start and end dates of our dataset
+  const startDate = xAccessor(dataset[0])
+  // Mon May 21 2018 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+  const endDate = xAccessor(dataset[dataset.length - 1])
+  // Mon May 20 2019 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+  // Identify specific years contained within our dataset
+  const years = d3.timeYears(d3.timeMonth.offset(startDate, -13), endDate)
+  // Mon Jan 01 2018 00:00:00 GMT-0800 (Pacific Standard Time),Tue Jan 01 2019 00:00:00 GMT-0800 (Pacific Standard Time)
+
+  years.forEach(yearDate => { // For each year in our dataset
+    const year = +d3.timeFormat("%Y")(yearDate) // 2019
+
+    // For each of our defined season boundaries
+    seasonBoundaries.forEach((boundary, index) => {
+      // Identify the start and end of our season for the year
+      const seasonStart = dateParser(`${year}-${boundary}`)
+      // Tue Mar 20 2018 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+      const seasonEnd = seasonBoundaries[index + 1] ?
+        dateParser(`${year}-${seasonBoundaries[index + 1]}`) :
+        dateParser(`${year + 1}-${seasonBoundaries[0]}`)
+      // Thu Jun 21 2018 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+      // Which is greater? Our dataset start date, or the start of the season for the year?
+      const boundaryStart = d3.max([startDate, seasonStart])
+      // Mon May 21 2018 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+      // Which is greater? Our dataset end date, or the end of the season for the year?
+      const boundaryEnd = d3.min([endDate, seasonEnd])
+      // Thu Jun 21 2018 00:00:00 GMT-0700 (Pacific Daylight Time)
+
+      // Identify the days in our dataset that match this season's boundary
+      const days = dataset.filter(d => xAccessor(d) > boundaryStart && xAccessor(d) <= boundaryEnd)
+      if (!days.length) return
+      seasonsData.push({
+        start: boundaryStart,
+        end: boundaryEnd,
+        name: seasonNames[index],
+        mean: d3.mean(days, yAccessor),
+      })
+    })
+  })
+
+  const seasonOffset = 10
+  const seasons = bounds.selectAll(".season")
+      .data(seasonsData)
+    .enter().append("rect")
+      .attr("x", d => xScale(d.start))
+      .attr("width", d => xScale(d.end) - xScale(d.start))
+      .attr("y", seasonOffset)
+      .attr("height", dimensions.boundedHeight - seasonOffset)
+      .attr("class", d => `season ${d.name}`)
+
+  // draw the line
+  const areaGenerator = d3.area()
+    .x(d => xScale(xAccessor(d)))
+    .y0(dimensions.boundedHeight / 2)
+    .y1(d => yScale(yAccessor(d)))
+    .curve(d3.curveBasis)
 
   // Even though we're drawing a smooth line, let's add the original data points in as small dots
   const dots = bounds.selectAll(".dot")
@@ -83,7 +150,6 @@ async function drawLineChart() {
 
 
   // 6. Draw peripherals
-
   const yAxisGenerator = d3.axisLeft()
     .scale(yScale)
     // Simply our y axis so that we only see three tick marks for simplicity
