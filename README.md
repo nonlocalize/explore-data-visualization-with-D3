@@ -166,3 +166,6 @@ This is the finished example which includes drawing an animated circle for the u
 ![screenshots/example-6c.gif](screenshots/example-06c.gif)
 
 ## Example 07: Data visualization basics
+
+### Demo 1: Redesign humidity chart
+
