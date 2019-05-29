@@ -223,3 +223,5 @@ The box plot is quite an advanced visualization.
 Excerpt From: Nate Murray. “Fullstack Data Visualization with D3.” Apple Books.
 
 ![screenshots/example-08g.png](screenshots/example-08g.png)
+
+## Example 09: Dashboard design
