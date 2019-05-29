@@ -19,6 +19,60 @@ table {
   border-collapse: collapse;
 }
 
+thead {
+  font-size: 0.9em;
+  letter-spacing: 0;
+  font-weight: 900;
+  white-space: nowrap;
+  text-align: left;
+}
+
+thead th {
+  position: sticky; /* Keep our header sticky when displaying a long table */
+  top: 0;
+  color: #f8f9fa;
+  background: #34495e;
+  padding: 1em 0.8rem;
+}
+
+tbody tr:nth-child(odd) {
+  background: #f0f0f3;
+}
+
+tbody tr:hover {
+  background: #d7ecec;  /* Highlight the entire row when a user hovers over it */
+}
+
 td {
-  border: 1px solid;
+  padding: 0.8em 0.8rem;
+}
+
+.number {
+  text-align: right;
+  /* This makes our font have equal character widths; otherwise 47.1 looks smaller than 45.5  */
+  font-feature-settings: 'tnum' 1;
+}
+.date {
+  text-align: right;
+  /* This makes our font have equal character widths; otherwise 47.1 looks smaller than 45.5  */
+  font-feature-settings: 'tnum' 1;
+}
+
+tbody .marker {
+  font-size: 0.7em;
+}
+
+tbody .symbol {
+  opacity: 0.6;
+}
+
+.centered {
+  text-align: center;
+}
+
+tbody .text {
+  font-size: 0.9em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
