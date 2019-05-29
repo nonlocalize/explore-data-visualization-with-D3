@@ -2,7 +2,8 @@ async function drawTable() {
   // load data
   const dateParser = d3.timeParse("%Y-%m-%d")
   const dateAccessor = d => dateParser(d.date)
-  let dataset = await d3.json("./../../../../my_weather_data.json")
+  const pathToJSON = './../data/seattle_wa_weather_data.json'
+  let dataset = await d3.json(pathToJSON)
   dataset = dataset.sort((a,b) => dateAccessor(a) - dateAccessor(b))
 
   const table = d3.select("#table")
@@ -25,11 +26,15 @@ async function drawTable() {
     .range([0, 1])
 
   const columns = [
+    // Format our dates to make them more human readable
     {label: "Day", type: "date", format: d => dateFormat(d.date)},
     {label: "Summary", type: "text", format: d => d.summary},
+    // Ensure all of our numbers have the same granularity
     {label: "Max Temp", type: "number", format: d => d3.format(".1f")(d.temperatureMax), background: d => colorScale(tempScale(d.temperatureMax))},
-    {label: "Max Temp Time", type: "marker", format: d => "|", transform: d => `translateX(${timeScale(format24HourTime(d.apparentTemperatureMaxTime))}%)`},
-    {label: "Wind Speed", type: "number", format: d => d3.format(".2f")(d.windSpeed), background: d => grayColorScale(humidityScale(d.windSpeed))},
+    // Let's use a marker to indicate where the max temp occurred (e.g. middle of the day, later in the day)
+    {label: "Max Temp Time", type: "marker", format: d => "|", transform: d => `translateX(${timeScale(format24HourTime(d.apparentTemperatureMaxTime))}%)`},  // Use colors blue to red to indicate temperature
+    // Ensure all of our numbers have the same granularity
+    {label: "Wind Speed", type: "number", format: d => d3.format(".2f")(d.windSpeed), background: d => grayColorScale(humidityScale(d.windSpeed))}, // Use colors white to slate gray to indicate windspeed
     {label: "Did Snow", type: "centered", format: d => d.precipType == "snow" ? "❄" : ""},
     {label: "UV Index", type: "symbol", format: d => new Array(+d.uvIndex).fill("✸").join("")},
   ]
