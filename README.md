@@ -192,14 +192,28 @@ This example contains a number of quick and easy references for generating color
 
 ### Demo 1: Timeline
 
+![screenshots/example-08a.png](screenshots/example-08a.png)
+
 ### Demo 2: Heatmap
+
+![screenshots/example-08b.gif](screenshots/example-08b.gif)
 
 ### Demo 3: Radar
 
+![screenshots/example-08c.png](screenshots/example-08c.png)
+
 ### Demo 4: Scatter
+
+![screenshots/example-08d.png](screenshots/example-08d.png)
 
 ### Demo 5: Pie
 
+![screenshots/example-08e.png](screenshots/example-08e.png)
+
 ### Demo 6: Histogram
 
+![screenshots/example-08f.png](screenshots/example-08f.png)
+
 ### Demo 7: Box plot
+
+![screenshots/example-08g.png](screenshots/example-08g.png)
