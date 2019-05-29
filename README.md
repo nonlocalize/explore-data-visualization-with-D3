@@ -187,3 +187,39 @@ This design revamp displays relative humidity with the following enhancements:
 This example contains a number of quick and easy references for generating color scales using D3.
 
 ![screenshots/example-07b.png](screenshots/example-07b.png)
+
+## Example 08: Common charts
+
+### Demo 1: Timeline
+
+![screenshots/example-08a.png](screenshots/example-08a.png)
+
+### Demo 2: Heatmap
+
+![screenshots/example-08b.gif](screenshots/example-08b.gif)
+
+### Demo 3: Radar
+
+![screenshots/example-08c.png](screenshots/example-08c.png)
+
+### Demo 4: Scatter
+
+![screenshots/example-08d.png](screenshots/example-08d.png)
+
+### Demo 5: Pie
+
+![screenshots/example-08e.png](screenshots/example-08e.png)
+
+### Demo 6: Histogram
+
+![screenshots/example-08f.png](screenshots/example-08f.png)
+
+### Demo 7: Box plot
+
+The box plot is quite an advanced visualization.
+
+> The middle line represents the median (the middle value) and the box covers values from the 25th percentile (25% of values are lower) to the 75th percentile (75% of values are lower). The “whiskers” extend 1.5 times the inter-quartile range (IQR) from the median in either direction. By IQR, we mean the difference between the 25th and 75th percentiles. Any outliers that lie outside of the whiskers are shown as dots.
+
+Excerpt From: Nate Murray. “Fullstack Data Visualization with D3.” Apple Books.
+
+![screenshots/example-08g.png](screenshots/example-08g.png)
