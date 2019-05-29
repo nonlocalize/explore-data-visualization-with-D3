@@ -187,3 +187,5 @@ This design revamp displays relative humidity with the following enhancements:
 This example contains a number of quick and easy references for generating color scales using D3.
 
 ![screenshots/example-07b.png](screenshots/example-07b.png)
+
+## Example 08: Common charts
