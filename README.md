@@ -189,3 +189,17 @@ This example contains a number of quick and easy references for generating color
 ![screenshots/example-07b.png](screenshots/example-07b.png)
 
 ## Example 08: Common charts
+
+### Demo 1: Timeline
+
+### Demo 2: Heatmap
+
+### Demo 3: Radar
+
+### Demo 4: Scatter
+
+### Demo 5: Pie
+
+### Demo 6: Histogram
+
+### Demo 7: Box plot
