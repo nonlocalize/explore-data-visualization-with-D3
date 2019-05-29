@@ -216,4 +216,10 @@ This example contains a number of quick and easy references for generating color
 
 ### Demo 7: Box plot
 
+The box plot is quite an advanced visualization.
+
+> The middle line represents the median (the middle value) and the box covers values from the 25th percentile (25% of values are lower) to the 75th percentile (75% of values are lower). The “whiskers” extend 1.5 times the inter-quartile range (IQR) from the median in either direction. By IQR, we mean the difference between the 25th and 75th percentiles. Any outliers that lie outside of the whiskers are shown as dots.
+
+Excerpt From: Nate Murray. “Fullstack Data Visualization with D3.” Apple Books.
+
 ![screenshots/example-08g.png](screenshots/example-08g.png)
