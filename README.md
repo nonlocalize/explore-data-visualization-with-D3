@@ -225,3 +225,17 @@ Excerpt From: Nate Murray. “Fullstack Data Visualization with D3.” Apple Boo
 ![screenshots/example-08g.png](screenshots/example-08g.png)
 
 ## Example 09: Dashboard design
+
+This example focused on effectively formatting and styling a table for an optimal user experience including:
+
++ Easy to read numbers
++ Equally spaced characters for our custom font
++ Using symbols to indicate
+  - The UV index
+  - Whether it snowed or not on a particular day
++ Color scales to indicate
+  - Temperature (blue to red)
+  - Wind speed (white to slate gray)
++ A visual indicator of approximately what point in the day the maximum temperature was recorded
+
+![screenshots/example-09a.png](screenshots/example-09a.png)
