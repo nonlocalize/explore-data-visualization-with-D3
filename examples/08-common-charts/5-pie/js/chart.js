@@ -93,7 +93,7 @@ async function drawPie() {
 
   bounds.append("text")
     .attr("class", "title-small")
-    .text("New York City, CA")
+    .text("Seattle WA")
     .attr("transform", `translate(${dimensions.boundedWidth / 2}, ${dimensions.boundedHeight / 2 + 30})`)
 
   iconGroups.append("text")
