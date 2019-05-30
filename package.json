@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx live-server"
+    "start": "npx live-server --port=8000"
   },
   "repository": {
     "type": "git",
