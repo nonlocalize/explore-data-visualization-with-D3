@@ -3,7 +3,6 @@
   src: url('./../../../fonts/Inter.var.woff2');
 }
 
-
 body {
   display: flex;
   flex-direction: column;
