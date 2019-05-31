@@ -251,3 +251,14 @@ This example enhances our original scatterplot with:
 ![screenshots/example-10.gif](screenshots/example-10.gif)
 
 ## Example 11: Radar weather chart
+
+This is a great example of how to create a radar chart with:
+
++ Concentric circles for relevant metrics
++ Ability to generate spokes for key points (such as each month in our dataset)
++ Indicating high UV index days with sunshine colored bands
++ Generating a radial graph of the temperature using a gradient
++ Indicating cloud cover by increasing dot size
++ Indicating precipitation with coloring
+
+![screenshots/example-11.gif](screenshots/example-11.gif)
