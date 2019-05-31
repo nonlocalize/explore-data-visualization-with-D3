@@ -268,3 +268,7 @@ This is a great example of how to create a radar chart with:
 This is a killer example. Check out how data is dynamically created and animated on a path.
 
 ![screenshots/example-12.gif](screenshots/example-12.gif)
+
+## Example 13: Using D3 with React
+
+![screenshots/example-13.gif](screenshots/example-13.gif)
