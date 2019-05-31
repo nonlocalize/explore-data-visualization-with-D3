@@ -262,3 +262,9 @@ This is a great example of how to create a radar chart with:
 + Indicating precipitation with coloring
 
 ![screenshots/example-11.gif](screenshots/example-11.gif)
+
+## Example 12: Animated sankey
+
+This is a killer example. Check out how data is dynamically created and animated on a path.
+
+![screenshots/example-12.gif](screenshots/example-12.gif)
