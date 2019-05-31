@@ -241,3 +241,11 @@ This example focused on effectively formatting and styling a table for an optima
 ![screenshots/example-09a.png](screenshots/example-09a.png)
 
 ## Example 10: Marginal histogram
+
+This example enhances our original scatterplot with:
+
++ Generating an appropriate color scale to display our dots
++ Adding histograms to the top and right of the chart indicating where a value falls in the overall distribution of our dataset
++ Breaking our color scale into segments that only show the relevant dots
+
+![screenshots/example-10.gif](screenshots/example-10.gif)
