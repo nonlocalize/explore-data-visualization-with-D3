@@ -239,3 +239,5 @@ This example focused on effectively formatting and styling a table for an optima
 + A visual indicator of approximately what point in the day the maximum temperature was recorded
 
 ![screenshots/example-09a.png](screenshots/example-09a.png)
+
+## Example 10: Marginal histogram
