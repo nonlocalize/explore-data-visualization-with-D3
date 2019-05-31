@@ -7,7 +7,7 @@ async function drawScatter() {
   // set data constants
   const xAccessor = d => d.temperatureMin
   const yAccessor = d => d.temperatureMax
-  const colorScaleYear = 2000
+  const colorScaleYear = 2000 // Why 2000? We're going to use this to wrap data so we can focus on MM-DD data points
   const parseDate = d3.timeParse("%Y-%m-%d")
   const colorAccessor = d => parseDate(d.date).setYear(colorScaleYear)
 
@@ -65,6 +65,10 @@ async function drawScatter() {
     ...dataset.map(xAccessor),
     ...dataset.map(yAccessor),
   ])
+
+  // What temperature range are we working with?
+  // console.log(temperaturesExtent)
+
   const xScale = d3.scaleLinear()
     .domain(temperaturesExtent)
     .range([0, dimensions.boundedWidth])
@@ -75,15 +79,19 @@ async function drawScatter() {
     .range([dimensions.boundedHeight, 0])
     .nice()
 
+  // This is an interesting use of basing a color scale over the days of the year.
+  // If our dataset spans multiple years, we're interested in showing the month and date with the same color.
   const colorScale = d3.scaleSequential()
     .domain([
       d3.timeParse("%m/%d/%Y")(`1/1/${colorScaleYear}`),
       d3.timeParse("%m/%d/%Y")(`12/31/${colorScaleYear}`),
     ])
+    // Invert the value so that our fall colors are more appropriate (brown/orangeish)
     .interpolator(d => d3.interpolateRainbow(-d))
 
   // 5. Draw data
 
+  // Scatterplot
   const dotsGroup = bounds.append("g")
   const dots = dotsGroup.selectAll(".dot")
     .data(dataset, d => d[0])
@@ -92,8 +100,10 @@ async function drawScatter() {
     .attr("cx", d => xScale(xAccessor(d)))
     .attr("cy", d => yScale(yAccessor(d)))
     .attr("r", 4)
+    // Fill our dots with the appropriate value from our color scale
     .style("fill", d => colorScale(colorAccessor(d)))
 
+  // Top histogram
   const topHistogramGenerator = d3.histogram()
     .domain(xScale.domain())
     .value(xAccessor)
@@ -122,6 +132,7 @@ async function drawScatter() {
     .attr("d", d => topHistogramLineGenerator(topHistogramBins))
     .attr("class", "histogram-area")
 
+  // Right histogram
   const rightHistogramGenerator = d3.histogram()
     .domain(yScale.domain())
     .value(yAccessor)
@@ -136,6 +147,7 @@ async function drawScatter() {
   const rightHistogramBounds = bounds.append("g")
     .attr("class", "right-histogram")
     .style("transform", `translate(${
+      // Note how we are pushing this histogram to the right of our scatterplot chart area
       dimensions.boundedWidth + dimensions.histogramMargin
       }px, -${
       dimensions.histogramHeight
@@ -153,6 +165,7 @@ async function drawScatter() {
 
   // 6. Draw peripherals
 
+  // x axis
   const xAxisGenerator = d3.axisBottom()
     .scale(xScale)
     .ticks(4)
@@ -167,6 +180,7 @@ async function drawScatter() {
     .attr("y", dimensions.margin.bottom - 10)
     .html("Minimum Temperature (&deg;F)")
 
+  // y axis
   const yAxisGenerator = d3.axisLeft()
     .scale(yScale)
     .ticks(4)
@@ -180,14 +194,16 @@ async function drawScatter() {
     .attr("y", -dimensions.margin.left + 10)
     .html("Maximum Temperature (&deg;F)")
 
+  // chart legend
   const legendGroup = bounds.append("g")
     .attr("transform", `translate(${
+      // Notice that we can place this legend within our scatterplot chart based on our dataset
       dimensions.boundedWidth - dimensions.legendWidth - 9
       },${
       dimensions.boundedHeight - 37
       })`)
 
-  const defs = wrapper.append("defs")
+  const defs = wrapper.append("defs") // define our gradient
 
   const numberOfGradientStops = 10
   const stops = d3.range(numberOfGradientStops).map(i => (
@@ -208,9 +224,10 @@ async function drawScatter() {
     .style("fill", `url(#${legendGradientId})`)
 
   const tickValues = [
-    d3.timeParse("%m/%d/%Y")(`4/1/${colorScaleYear}`),
-    d3.timeParse("%m/%d/%Y")(`7/1/${colorScaleYear}`),
-    d3.timeParse("%m/%d/%Y")(`10/1/${colorScaleYear}`),
+    d3.timeParse("%m/%d/%Y")(`2/1/${colorScaleYear}`),
+    d3.timeParse("%m/%d/%Y")(`5/1/${colorScaleYear}`),
+    d3.timeParse("%m/%d/%Y")(`8/1/${colorScaleYear}`),
+    d3.timeParse("%m/%d/%Y")(`11/1/${colorScaleYear}`),
   ]
   const legendTickScale = d3.scaleLinear()
     .domain(colorScale.domain())
@@ -254,6 +271,7 @@ async function drawScatter() {
         point.join(",")
       )).join(" ")
     ))
+  // Uncomment to see the Voronoi polygons generated from our dataset
   // .attr("stroke", "grey")
 
   voronoi.on("mouseenter", onVoronoiMouseEnter)
@@ -329,6 +347,7 @@ async function drawScatter() {
     tooltip.style("opacity", 0)
   }
 
+  // legend interactions
   legendGradient.on("mousemove", onLegendMouseMove)
     .on("mouseleave", onLegendMouseLeave)
 
