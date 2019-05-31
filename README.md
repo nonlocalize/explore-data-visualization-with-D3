@@ -249,3 +249,5 @@ This example enhances our original scatterplot with:
 + Breaking our color scale into segments that only show the relevant dots
 
 ![screenshots/example-10.gif](screenshots/example-10.gif)
+
+## Example 11: Radar weather chart
