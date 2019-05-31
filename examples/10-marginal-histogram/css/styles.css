@@ -90,10 +90,13 @@ circle {
 
 .hover-line {
   fill: #5758BB;
-  transition: all 0.2s ease-out;
+  /* Comment out the code below to see what happens =) */
+  transition: all 0.2s ease-out;  /* Smooth the movement of our hover lines as we move between dots */
   opacity: 0.5;
-  pointer-events: none;
+  pointer-events: none; /* Defined so we are not capturing pointer events with our hover lines */
+  /* Prevent the bars from appearing "too loud" */
   mix-blend-mode: color-burn;
+  /* mix-blend-mode: hard-light; */
 }
 
 .tooltip {
