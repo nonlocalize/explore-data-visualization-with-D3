@@ -9,6 +9,7 @@ async function drawChart() {
   const sexIds = d3.range(sexes.length)
 
   const educationAccessor = d => d.education
+  // We are hard-coding values here instead of obtaining them dynamically so we can control the order
   const educationNames = [
     "<High School",
     "High School",
@@ -40,10 +41,14 @@ async function drawChart() {
     })
   })
 
+  // Take a peek at our stackedProbabilities
+  console.log(stackedProbabilities)
+
   let currentPersonId = 0
   function generatePerson(elapsed) {
     currentPersonId++
 
+    // Use our utility functions (bottom) to select a random value from our arrays
     const sex = getRandomValue(sexIds)
     const ses = getRandomValue(sesIds)
     const statusKey = getStatusKey({
