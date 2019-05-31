@@ -41,8 +41,8 @@ async function drawChart() {
     })
   })
 
-  // Take a peek at our stackedProbabilities
-  console.log(stackedProbabilities)
+  // // Take a peek at our stackedProbabilities
+  // console.log(stackedProbabilities)
 
   let currentPersonId = 0
   function generatePerson(elapsed) {
@@ -110,10 +110,11 @@ async function drawChart() {
 
   // 4. Create scales
 
+  // We have three starting y positions and six ending y positions to draw paths for
   const xScale = d3.scaleLinear()
     .domain([0, 1])
-    .range([0, dimensions.boundedWidth])
-    .clamp(true)
+    .range([0, dimensions.boundedWidth])  // 0 is waiting start; 1 means the journey to the right is complete
+    .clamp(true)  // Clamp our data so that we are not drawing outside our path
 
   const startYScale = d3.scaleLinear()
     .domain([sesIds.length, -1])
@@ -134,7 +135,6 @@ async function drawChart() {
     .interpolate(d3.interpolateHcl)
 
   // 5. Draw data
-
   const linkLineGenerator = d3.line()
     .x((d, i) => i * (dimensions.boundedWidth / 5))
     .y((d, i) => i <= 2
@@ -199,6 +199,7 @@ async function drawChart() {
     .attr("y", (d, i) => endYScale(i) - 15)
     .text(d => d)
 
+  // Represent males on the chart using circles
   const maleMarkers = endingLabelsGroup.selectAll(".male-marker")
     .data(educationIds)
     .enter().append("circle")
@@ -207,7 +208,8 @@ async function drawChart() {
     .attr("cx", 5)
     .attr("cy", d => endYScale(d) + 5)
 
-  const trianglePoints = [
+  // Represent females on the chart using triangles
+  const trianglePoints = [  // [0,0] is the starting point
     "-7,  6",
     " 0, -6",
     " 7,  6",
@@ -219,6 +221,7 @@ async function drawChart() {
     .attr("points", trianglePoints)
     .attr("transform", d => `translate(5, ${endYScale(d) + 20})`)
 
+  // Create our legend container
   const legendGroup = bounds.append("g")
     .attr("class", "legend")
     .attr("transform", `translate(${dimensions.boundedWidth}, 5)`)
@@ -272,6 +275,7 @@ async function drawChart() {
     .attr("transform", `translate(${dimensions.boundedWidth}, 0)`)
 
   function updateMarkers(elapsed) {
+    // Animate progress along the path over a 5 s time period
     const xProgressAccessor = d => (elapsed - d.startTime) / 5000
     if (people.length < maximumPeople) {
       people = [
@@ -280,6 +284,7 @@ async function drawChart() {
       ]
     }
 
+    // Female
     const females = markersGroup.selectAll(".marker-circle")
       .data(people.filter(d => (
         xProgressAccessor(d) < 1
@@ -291,6 +296,7 @@ async function drawChart() {
       .style("opacity", 0)
     females.exit().remove()
 
+    // Male
     const males = markersGroup.selectAll(".marker-triangle")
       .data(people.filter(d => (
         xProgressAccessor(d) < 1
@@ -304,6 +310,7 @@ async function drawChart() {
 
     const markers = d3.selectAll(".marker")
 
+    // Move our markers
     markers.style("transform", d => {
       const x = xScale(xProgressAccessor(d))
       const yStart = startYScale(sesAccessor(d))
@@ -324,6 +331,7 @@ async function drawChart() {
         : 1
       )
 
+    // Where did people end up?
     const endingGroups = educationIds.map(endId => (
       people.filter(d => (
         xProgressAccessor(d) >= 1
@@ -362,6 +370,7 @@ async function drawChart() {
       ))
     )
 
+    // Draw our ending bars
     endingBarGroup.selectAll(".ending-bar")
       .data(endingPercentages)
       .join("rect")
@@ -383,6 +392,7 @@ async function drawChart() {
         : "#dadadd"
       )
 
+    // Draw ending values
     endingLabelsGroup.selectAll(".ending-value")
       .data(endingPercentages)
       .join("text")
