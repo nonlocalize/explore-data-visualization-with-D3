@@ -73,12 +73,14 @@ svg text {
 
 .tick-label {
   dominant-baseline: middle;
+  /* Use dominant-baseline to center our labels */
   fill: #8395a7;
   font-size: 0.7em;
   font-weight: 900;
 }
 
 .tick-label-temperature {
+  /* Vertically center and dim our labels */
   fill: #8395a7;
   opacity: 0.7;
   font-size: 0.7em;
