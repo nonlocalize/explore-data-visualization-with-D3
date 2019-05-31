@@ -4,6 +4,10 @@ async function drawChart() {
   const pathToJSON = './../data/seattle_wa_weather_data.json'
   const dataset = await d3.json(pathToJSON)
 
+  // // Take a peek at our first data point
+  // console.table(dataset[0])
+
+  // Create accessors for each metric we wish to plot on our radar chart
   const temperatureMinAccessor = d => d.temperatureMin
   const temperatureMaxAccessor = d => d.temperatureMax
   const uvAccessor = d => d.uvIndex
@@ -36,6 +40,8 @@ async function drawChart() {
   dimensions.boundedRadius = dimensions.radius
     - ((dimensions.margin.left + dimensions.margin.right) / 2)
 
+  // Convert from an angle to an x,y coordinate - with an ability to supply an option offset
+  // Trigonometry FTW
   const getCoordinatesForAngle = (angle, offset = 1) => [
     Math.cos(angle - Math.PI / 2) * dimensions.boundedRadius * offset,
     Math.sin(angle - Math.PI / 2) * dimensions.boundedRadius * offset,
@@ -48,6 +54,8 @@ async function drawChart() {
     .attr("width", dimensions.width)
     .attr("height", dimensions.height)
 
+  // Note that we are starting our bounds from the center of our circle. When we place our data and peripherals on
+  // the chart, we only need to know where they should be positioned in respect to the center of our circle.
   const bounds = wrapper.append("g")
     .style("transform", `translate(${
       dimensions.margin.left + dimensions.boundedRadius
@@ -55,6 +63,7 @@ async function drawChart() {
       dimensions.margin.top + dimensions.boundedRadius
       }px)`)
 
+  // Draw the gradient for our radial temperature chart
   const defs = wrapper.append("defs")
 
   const gradientId = "temperature-gradient"
@@ -71,10 +80,11 @@ async function drawChart() {
   })
 
   // 4. Create scales
-
+  // The location of a data element around the radar chart's center corresponds to its date
   const angleScale = d3.scaleTime()
     .domain(d3.extent(dataset, dateAccessor))
     .range([0, Math.PI * 2]) // this is in radians
+  // We DO NOT use .nice() here because we need precise values here
 
   const radiusScale = d3.scaleLinear()
     .domain(d3.extent([
@@ -82,8 +92,10 @@ async function drawChart() {
       ...dataset.map(temperatureMinAccessor),
     ]))
     .range([0, dimensions.boundedRadius])
+    // We're just drawing circles for our radar chart, so we can keep this friendly using .nice()
     .nice()
 
+  // Let's create some helper functions to calculate x and y values from a specific data point
   const getXFromDataPoint = (d, offset = 1.4) => getCoordinatesForAngle(
     angleScale(dateAccessor(d)),
     offset
@@ -101,6 +113,8 @@ async function drawChart() {
   const precipitationRadiusScale = d3.scaleSqrt()
     .domain(d3.extent(dataset, precipitationProbabilityAccessor))
     .range([1, 8])
+
+  // Define a color scale based on the type of precipation
   const precipitationTypes = ["rain", "sleet", "snow"]
   const precipitationTypeColorScale = d3.scaleOrdinal()
     .domain(precipitationTypes)
@@ -114,25 +128,39 @@ async function drawChart() {
   // .interpolator(gradientColorScale)
 
   // 6. Draw peripherals
-
+  // Note that we've deliberately switched the order of our usual steps 5 and 6. This is intentional.
+  // Why? We want to draw our grid first AND THEN LAYER the additional elements on top.
   const peripherals = bounds.append("g")
 
-  const months = d3.timeMonths(...angleScale.domain())
+  // Create a spoke for each month in our chart
+  const months = d3.timeMonths(...angleScale.domain())  // Get an array of months from our domain
+
+  // // Take a peek at our months data
+  // console.log(months)
+
   months.forEach(month => {
     const angle = angleScale(month)
     const [x, y] = getCoordinatesForAngle(angle)
 
+    // Generates a spoke from the center of the circle
     peripherals.append("line")
+      // We do not need to define x1 and y1 attributes here because they have default values of 0
       .attr("x2", x)
       .attr("y2", y)
       .attr("class", "grid-line")
 
+    // Get coordinates of a point that is a fair distance away from our center point
+    // This enables us to draw our chart safely inside our month labels.
     const [labelX, labelY] = getCoordinatesForAngle(angle, 1.38)
+
+    // Create the label for the spoke
     peripherals.append("text")
       .attr("x", labelX)
       .attr("y", labelY)
       .attr("class", "tick-label")
       .text(d3.timeFormat("%b")(month))
+      // text-anchor for SVG elements is analogous to text-align for traditional HTML elements.
+      // Without it, we can see that our labels on the left are not properly aligned
       .style("text-anchor",
         Math.abs(labelX) < 5 ? "middle" :
           labelX > 0 ? "start" :
@@ -140,20 +168,29 @@ async function drawChart() {
       )
   })
 
+  // Temperature
   const temperatureTicks = radiusScale.ticks(4)
+
+  // Generate concentric circles for our radar chart
   const gridCircles = temperatureTicks.map(d => (
     peripherals.append("circle")
       .attr("r", radiusScale(d))
       .attr("class", "grid-line")
   ))
+
+  // Label each concentric circle
+
+  // Draw a <rect> element for our label
   const tickLabelBackgrounds = temperatureTicks.map(d => {
-    if (!d) return
+    if (!d) return  // Not likely to occur unless our data set is skipping dates
     return peripherals.append("rect")
       .attr("y", -radiusScale(d) - 10)
       .attr("width", 40)
       .attr("height", 20)
       .attr("fill", "#f8f9fa")
   })
+
+  // Draw our tick label on top of our <rect>
   const tickLabels = temperatureTicks.map(d => {
     if (!d) return
     return peripherals.append("text")
@@ -165,6 +202,7 @@ async function drawChart() {
 
   // 5. Draw data
 
+  // Draw circle to indicate freezing temperatures
   const containsFreezing = radiusScale.domain()[0] < 32
   if (containsFreezing) {
     const freezingCircle = bounds.append("circle")
@@ -172,6 +210,7 @@ async function drawChart() {
       .attr("class", "freezing-circle")
   }
 
+  // Note the use of d3.areaRadial() here for drawing our circular temperature chart in a circle
   const areaGenerator = d3.areaRadial()
     .angle(d => angleScale(dateAccessor(d)))
     .innerRadius(d => radiusScale(temperatureMinAccessor(d)))
@@ -182,6 +221,7 @@ async function drawChart() {
     .attr("d", areaGenerator(dataset))
     .style("fill", `url(#${gradientId})`)
 
+  // Define UV index
   const uvIndexThreshold = 8
   const uvGroup = bounds.append("g")
   const UvOffset = 0.95
@@ -194,6 +234,7 @@ async function drawChart() {
     .attr("y1", d => getYFromDataPoint(d, UvOffset))
     .attr("y2", d => getYFromDataPoint(d, UvOffset + 0.1))
 
+  // Define cloud cover
   const cloudGroup = bounds.append("g")
   const cloudOffset = 1.27
   const cloudDots = cloudGroup.selectAll("circle")
@@ -202,8 +243,10 @@ async function drawChart() {
     .attr("class", "cloud-dot")
     .attr("cx", d => getXFromDataPoint(d, cloudOffset))
     .attr("cy", d => getYFromDataPoint(d, cloudOffset))
+    // Notice how we're using the size of the dot to indicate cloud coverage
     .attr("r", d => cloudRadiusScale(cloudAccessor(d)))
 
+  // Define precipitation bubbles
   const precipitationGroup = bounds.append("g")
   const precipitationOffset = 1.14
   const precipitationDots = precipitationGroup.selectAll("circle")
@@ -226,6 +269,7 @@ async function drawChart() {
 
   const drawAnnotation = (angle, offset, text) => {
     const [x1, y1] = getCoordinatesForAngle(angle, offset)
+    // Draw annotation line so that it is outside of our concentric circles
     const [x2, y2] = getCoordinatesForAngle(angle, 1.6)
 
     annotationGroup.append("line")
